@@ -8,8 +8,13 @@ jobs:
     - uses: actions/setup-python@v5
       with:
         python-version: '3.11'
-    - run: pip install pyinstaller pygame
-    - run: pyinstaller --onefile --windowed --icon=icon.ico komunikaty.py
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install pyinstaller pygame
+        if (Test-Path requirements.txt) { pip install -r requirements.txt }
+    - name: Build EXE
+      run: pyinstaller --onefile --windowed komunikaty.py
     - uses: actions/upload-artifact@v4
       with:
         name: Komunikaty-Windows
